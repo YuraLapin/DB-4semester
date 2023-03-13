@@ -1,2 +1,5 @@
 /.vscode
 /flask
+/musicBD/static/db/sqldiff.exe
+/musicBD/static/db/sqlite3.exe
+/musicBD/static/db/sqlite3_analyzer.exe
