@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="\static/style.css">
+        <title>Любимые песни</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>    
+    </head>
+    <body class="body">
+
+        <div class="title-area">
+            <fieldset class="title-container">
+                <t class="title">База данных Любимые песни</t>
+            </fieldset>
+        </div>
+
+
+        <div class="main-area">
+            <fieldset class="request-container">               
+                <button class="button" id="request1">Request 1</button>
+                <button class="button" id="request2">Request 2</button>
+                <button class="button" id="request3">Request 3</button>
+                <button class="button" id="request4">Request 4</button>
+                <button class="button" id="request5">Request 5</button>
+                <button class="button" id="request6">Request 6</button>
+                <button class="button" id="request7">Request 7</button>
+                <button class="button" id="request8">Request 8</button>
+            </fieldset>
+            <fieldset class="table-container">  
+                <table class="table" id="requestResult"></table>
+            </fieldset>
+        </div>
+
+
+        <script>
+            requests = [
+                "SELECT * FROM songs",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            ]
+
+            document.getElementById("request1").addEventListener(
+                "click",
+                function() {
+                    makeRequest(requests[0]);               
+                },
+                false    
+            )
+
+            document.getElementById("request2").addEventListener(
+                "click",
+                function() {
+                    makeRequest(requests[1]);               
+                },
+                false    
+            )
+
+            document.getElementById("request3").addEventListener(
+                "click",
+                function() {
+                    makeRequest(requests[2]);               
+                },
+                false    
+            )
+
+            document.getElementById("request4").addEventListener(
+                "click",
+                function() {
+                    makeRequest(requests[3]);               
+                },
+                false    
+            )
+
+            document.getElementById("request5").addEventListener(
+                "click",
+                function() {
+                    makeRequest(requests[4]);               
+                },
+                false    
+            )
+
+            document.getElementById("request6").addEventListener(
+                "click",
+                function() {
+                    makeRequest(requests[5]);               
+                },
+                false    
+            )
+
+            document.getElementById("request7").addEventListener(
+                "click",
+                function() {
+                    makeRequest(requests[6]);               
+                },
+                false    
+            )
+
+            document.getElementById("request8").addEventListener(
+                "click",
+                function() {
+                    makeRequest(requests[7]);               
+                },
+                false    
+            )
+
+            function convertToTableText(list){
+                var result = "";
+                for (var i = 0; i < list.length; ++i){
+                    var currentRow = "";
+                    if (i == 0){
+                        currentRow = "<thead>"
+                    }
+                    else if (i == 1){
+                        var currentRow = "<tbody>";
+                    }
+                    currentRow += "<tr>";
+                    for (var j = 0; j < list[i].length; ++j){
+                        if (i == 0){
+                            currentRow += "<th>" + list[i][j] + "</th>";
+                        }
+                        else{
+                            currentRow += "<td>" + list[i][j] + "</td>";
+                        }
+                    }  
+                    currentRow += "</tr>";    
+                    if (i == 0){
+                        currentRow += "</thead>";                  
+                    }                                
+                    result += currentRow;
+                }
+                result += "</tbody>"
+                alert(result);
+                return result;                
+            }
+
+            function makeRequest(request){
+                var ans;
+                $.ajax({
+                    method: "POST",
+                    url: "/make_request",
+                    data: {
+                        request_text: request
+                    },
+                    success: function(result){  
+                        var text = convertToTableText(result);
+                        document.getElementById("requestResult").innerHTML = text;
+                    }
+                })
+            }
+
+        </script>
+        
+    </body>
+</html>
