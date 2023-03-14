@@ -3,3 +3,4 @@
 /musicBD/static/db/sqldiff.exe
 /musicBD/static/db/sqlite3.exe
 /musicBD/static/db/sqlite3_analyzer.exe
+/musicBD/__pycache__
