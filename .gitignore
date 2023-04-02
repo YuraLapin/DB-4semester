@@ -1,6 +1,8 @@
-/.vscode
-/flask
-/musicBD/static/db/sqldiff.exe
-/musicBD/static/db/sqlite3.exe
-/musicBD/static/db/sqlite3_analyzer.exe
-/musicBD/__pycache__
+.vscode
+flask
+musicBD/db/sqldiff.exe
+musicBD/db/sqlite3.exe
+musicBD/db/sqlite3_analyzer.exe
+musicBD/__pycache__
+*.pyc
+musicBD/__pycache__/__init__.cpython-38.pyc

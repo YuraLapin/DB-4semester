@@ -1,158 +1,119 @@
 <!DOCTYPE html>
+
 <html>
+
     <head>
+
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="\static/style.css">
+        <link rel="stylesheet" href="\static\style.css">
         <title>Любимые песни</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>  
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+            integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+            integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        
     </head>
+
     <body class="body">
 
-        <div class="title-area">
-            <fieldset class="title-container">
-                <t class="title">База данных Любимые песни</t>
-            </fieldset>
-        </div>
-
-
-        <div class="main-area">
-            <fieldset class="request-container">               
-                <button class="button" id="request1">Request 1</button>
-                <button class="button" id="request2">Request 2</button>
-                <button class="button" id="request3">Request 3</button>
-                <button class="button" id="request4">Request 4</button>
-                <button class="button" id="request5">Request 5</button>
-                <button class="button" id="request6">Request 6</button>
-                <button class="button" id="request7">Request 7</button>
-                <button class="button" id="request8">Request 8</button>
-            </fieldset>
-            <fieldset class="table-container">  
-                <table class="table" id="requestResult"></table>
-            </fieldset>
-        </div>
-
-
-        <script>
-            requests = [
-                "SELECT * FROM songs",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-            ]
-
-            document.getElementById("request1").addEventListener(
-                "click",
-                function() {
-                    makeRequest(requests[0]);               
-                },
-                false    
-            )
-
-            document.getElementById("request2").addEventListener(
-                "click",
-                function() {
-                    makeRequest(requests[1]);               
-                },
-                false    
-            )
-
-            document.getElementById("request3").addEventListener(
-                "click",
-                function() {
-                    makeRequest(requests[2]);               
-                },
-                false    
-            )
-
-            document.getElementById("request4").addEventListener(
-                "click",
-                function() {
-                    makeRequest(requests[3]);               
-                },
-                false    
-            )
-
-            document.getElementById("request5").addEventListener(
-                "click",
-                function() {
-                    makeRequest(requests[4]);               
-                },
-                false    
-            )
-
-            document.getElementById("request6").addEventListener(
-                "click",
-                function() {
-                    makeRequest(requests[5]);               
-                },
-                false    
-            )
-
-            document.getElementById("request7").addEventListener(
-                "click",
-                function() {
-                    makeRequest(requests[6]);               
-                },
-                false    
-            )
-
-            document.getElementById("request8").addEventListener(
-                "click",
-                function() {
-                    makeRequest(requests[7]);               
-                },
-                false    
-            )
-
-            function convertToTableText(list){
-                var result = "";
-                for (var i = 0; i < list.length; ++i){
-                    var currentRow = "";
-                    if (i == 0){
-                        currentRow = "<thead>"
-                    }
-                    else if (i == 1){
-                        var currentRow = "<tbody>";
-                    }
-                    currentRow += "<tr>";
-                    for (var j = 0; j < list[i].length; ++j){
-                        if (i == 0){
-                            currentRow += "<th>" + list[i][j] + "</th>";
-                        }
-                        else{
-                            currentRow += "<td>" + list[i][j] + "</td>";
-                        }
-                    }  
-                    currentRow += "</tr>";    
-                    if (i == 0){
-                        currentRow += "</thead>";                  
-                    }                                
-                    result += currentRow;
-                }
-                result += "</tbody>"
-                return result;                
-            }
-
-            function makeRequest(request){
-                var ans;
-                $.ajax({
-                    method: "POST",
-                    url: "/make_request",
-                    data: {
-                        request_text: request
-                    },
-                    success: function(result){  
-                        var text = convertToTableText(result);
-                        document.getElementById("requestResult").innerHTML = text;
-                    }
-                })
-            }
-
-        </script>
         
+        <div class="left-panel">
+
+            <fieldset class="button-container">    
+
+                <t class="button-container-title">REQUESTS</t>           
+                <button class="button" id="request0">Request 1</button>
+                <button class="button" id="request1">Request 2</button>
+                <button class="button" id="request2">Request 3</button>
+                <button class="button" id="request3">Request 4</button>
+                <button class="button" id="request4">Request 5</button>
+                <button class="button" id="request5">Request 6</button>
+                <button class="button" id="request6">Request 7</button>
+                <button class="button" id="request7">Request 8</button>
+
+            </fieldset>
+
+            <fieldset class="button-container">
+
+                <t class="button-container-title">TABLES</t>           
+                <button class="button" id="ArtistsButton">Artists</button>
+                <button class="button" id="BandsButton">Bands</button>
+                <button class="button" id="AlbumsButton">Albums</button>
+                <button class="button" id="SongsButton">Songs</button>
+                <button class="button" id="GenresButton">Genres</button>
+                <button class="button" id="Past_SurveysButton">Past_Surveys</button>
+                <button class="button" id="Former_RespondentsButton">Former_Respondents</button>
+                <button class="button" id="SurveysButton">Surveys</button>
+                <button class="button" id="RespondentsButton">Respondents</button>
+                <button class="button" id="CategoriesButton">Categories</button>
+
+            </fieldset>
+
+            <fieldset class="button-container">
+
+                <t class="button-container-title">Surveys</t>           
+                <button class="button" id="surveyButton">Top 5 songs</button>
+
+            </fieldset>
+
+        </div>
+
+
+        <div>
+
+            <div class="table-container">  
+
+                <t class="request-label" id="requestLabel" hidden="true">REQUEST</t>
+                <t class="request-name" id="requestName" hidden="true"></t>
+                <table class="table" id="requestResult"></table>
+    
+            </div>  
+
+            <div class="survey-container" id="surveyContainer" style="z-index: -1">
+
+                <t class="survey-label">SURVEY</t>
+                <t class="survey-name">Top 5 songs</t>
+                <fieldset class="survey-field">
+
+                    <input type="text" class="survey-text-area" id="surveyTextArea" placeholder="Your name..."></input>
+                    <input type="text" class="survey-text-area" id="surveyTextArea" placeholder="Your age..."></input>
+
+                    <select class="survey-select" id="surveySelectGender">
+
+                        <option value="" disabled selected hidden>Your gender</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+
+                    </select>
+
+                    <select class="survey-select" id="surveySelect0"><option value="" disabled selected hidden>Song 1</option></select>
+                    <select class="survey-select" id="surveySelect1"><option value="" disabled selected hidden>Song 2</option></select>
+                    <select class="survey-select" id="surveySelect2"><option value="" disabled selected hidden>Song 3</option></select>
+                    <select class="survey-select" id="surveySelect3"><option value="" disabled selected hidden>Song 4</option></select>
+                    <select class="survey-select" id="surveySelect4"><option value="" disabled selected hidden>Song 5</option></select>
+
+                    <button class="survey-send-button" id="surveySendButton">Send</button>
+
+                </fieldset>
+
+            </div>
+
+        </div>         
+
+        
+        <script src="\static/scripts.js"></script>
+
+
     </body>
+
 </html>

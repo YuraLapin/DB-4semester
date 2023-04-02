@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-DATABASE = 'musicBD/static/db/database.db'
+DATABASE = 'musicBD/db/database.db'
 
 def get_db():
     db = getattr(g, '_database', None)
