@@ -5,4 +5,5 @@ musicBD/db/sqlite3.exe
 musicBD/db/sqlite3_analyzer.exe
 musicBD/__pycache__
 *.pyc
+*.exe
 musicBD/__pycache__/__init__.cpython-38.pyc
