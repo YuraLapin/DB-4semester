@@ -1,5 +1,5 @@
 requests = [
-    "SELECT * FROM Songs",
+    "SELECT * FROM song",
     "",
     "",
     "",
@@ -10,16 +10,16 @@ requests = [
 ];
 
 tableNames = [
-    "Artists",
-    "Bands",
-    "Albums",
-    "Songs",
-    "Genres",
-    "Past_Surveys",
-    "Former_Respondents",
-    "Surveys",
-    "Respondents",
-    "Categories"
+    "artist",
+    "band",
+    "album",
+    "song",
+    "genre",
+    "past_survey",
+    "former_respondent",
+    "survey",
+    "respondent",
+    "category"
 ];
 
 for (var i = 0; i < 8; ++i){
@@ -46,7 +46,7 @@ tableNames.forEach(element => {
     );
 });  
 
-document.getElementById("surveyButton").addEventListener(
+document.getElementById("mainSurveyButton").addEventListener(
     "click",
     function() {
         showRequest(false);         
@@ -59,15 +59,15 @@ async function getSongNames(){
         method: "POST",
         url: "/make_request",
         data: {
-            request_text: "SELECT Song_name FROM Songs"
+            request_text: "SELECT song.song_name, band.band_name FROM song INNER JOIN album ON song.id_album = album.id_album INNER JOIN band ON album.id_band = band.id_band;"
         },
-        success: function(result){ 
+        success: async function(result){ 
             var songList = []; 
             songList = result;
             songList.shift();
             var htmlSongList = "";
-            songList.forEach(element => {
-                htmlSongList += "<option value=\"" + element + "\">" + element + "</option>";
+            songList.forEach(element => {                
+                htmlSongList += "<option value=\"" + element[0] + " by " + element[1] + "\">" + element[0] + " by " + element[1] + "</option>";
             });
             for (var i = 0; i < 5; ++i){
                 let strId = "surveySelect" + i.toString();

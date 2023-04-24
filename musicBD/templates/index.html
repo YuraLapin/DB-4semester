@@ -46,25 +46,45 @@
             <fieldset class="button-container">
 
                 <t class="button-container-title">TABLES</t>           
-                <button class="button" id="ArtistsButton">Artists</button>
-                <button class="button" id="BandsButton">Bands</button>
-                <button class="button" id="AlbumsButton">Albums</button>
-                <button class="button" id="SongsButton">Songs</button>
-                <button class="button" id="GenresButton">Genres</button>
-                <button class="button" id="Past_SurveysButton">Past_Surveys</button>
-                <button class="button" id="Former_RespondentsButton">Former_Respondents</button>
-                <button class="button" id="SurveysButton">Surveys</button>
-                <button class="button" id="RespondentsButton">Respondents</button>
-                <button class="button" id="CategoriesButton">Categories</button>
+                <button class="button" id="artistButton">Artists</button>
+                <button class="button" id="bandButton">Bands</button>
+                <button class="button" id="albumButton">Albums</button>
+                <button class="button" id="songButton">Songs</button>
+                <button class="button" id="genreButton">Genres</button>
+                <button class="button" id="past_surveyButton">Past_Surveys</button>
+                <button class="button" id="former_respondentButton">Former_Respondents</button>
+                <button class="button" id="surveyButton">Surveys</button>
+                <button class="button" id="respondentButton">Respondents</button>
+                <button class="button" id="categoryButton">Categories</button>
 
             </fieldset>
 
             <fieldset class="button-container">
 
                 <t class="button-container-title">Surveys</t>           
-                <button class="button" id="surveyButton">Top 5 songs</button>
+                <button class="button" id="mainSurveyButton">Top 5 songs</button>
 
             </fieldset>
+
+            {% if user == 'admin' %}
+                <fieldset class="button-container">
+
+                    <t class="button-container-title">Admin Tools</t>           
+                    <button class="button" id="mainSurveyButton">SQL Query</button>
+
+                </fieldset>
+            {% endif %}
+
+            {% if user == 'admin' or user == 'manager' %}
+                <fieldset class="button-container">
+
+                    <t class="button-container-title">Manager Tools</t>           
+                    <button class="button" id="mainSurveyButton">Add Song</button>
+                    <button class="button" id="mainSurveyButton">Add Album</button>
+                    <button class="button" id="mainSurveyButton">Add Band</button>
+
+                </fieldset>
+            {% endif %}
 
         </div>
 
@@ -101,7 +121,7 @@
                     <select class="survey-select" id="surveySelect2"><option value="" disabled selected hidden>Song 3</option></select>
                     <select class="survey-select" id="surveySelect3"><option value="" disabled selected hidden>Song 4</option></select>
                     <select class="survey-select" id="surveySelect4"><option value="" disabled selected hidden>Song 5</option></select>
-
+                    
                     <button class="survey-send-button" id="surveySendButton">Send</button>
 
                 </fieldset>

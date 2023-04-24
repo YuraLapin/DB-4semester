@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="\static\loginstyle.css">
+        <title>Любимые песни</title>        
+        
+    </head>
+
+    <body>
+
+       <div class="login-centralarea">
+
+            <fieldset class="login-selector">
+
+                <button class="selector-button" id="logInSelectorButton">Log in</input>
+                <button class="selector-button" id="signUpSelectorButton">Sign up</input>
+
+            </fieldset>
+
+            <div class="login-mainarea">
+
+                <form action="/tryLogIn" class="login-field" id="logInField" method="POST">
+
+                    <input type="text" class="login-textarea" placeholder="Login" name="login"></input>
+                    <input type="text" class="login-textarea" placeholder="Password" name="password"></input>
+
+                    {% if error == 'invalid login' %}
+                        <t class="error-message">Login or password is invalid</t>
+                    {% endif %}
+
+                    <button class="login-button" id="logInSendButton">Log in</button>
+        
+                </form>
+        
+                <form action="/register" method="POST" class="login-field" id="signUpField" style="z-index: -1">
+        
+                    <input type="text" class="login-textarea" placeholder="Login" name="login"></input>
+                    <input type="text" class="login-textarea" placeholder="Password" name="password1"></input>
+                    <input type="text" class="login-textarea" placeholder="Repeat Password" name="password2"></input>
+
+                    {% if error == 'not filled' %}
+                        <t class="error-message">Fill all the fields</t>
+                    {% elif error == 'different passwords' %}
+                        <t class="error-message">Passwords do not match</t>
+                    {% elif error == 'login taken' %}
+                        <t class="error-message">Login is already taken</t>
+                    {% endif %}
+
+                    <button class="login-button" id="signUpSendButton">Sign up</button>
+        
+                </form>
+
+            </div>
+
+       </div>
+
+       <script src="\static/login_scripts.js"></script>
+
+        {% if error == 'not filled' or error == 'different passwords' or error == 'login taken' %}
+            <script>
+                document.getElementById("signUpField").style = "z-index: 1"; 
+                document.getElementById("logInField").style = "z-index: -1"; 
+            </script>
+        {% endif %}
+
+    </body>
+
+</html>
