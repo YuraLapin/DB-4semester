@@ -55,7 +55,7 @@ def try_login():
     
     hashed_password = request_result[0][0]
     if bcrypt.checkpw(password, hashed_password):
-        return render_template('index.html')
+        return render_template('index.html', user = login)
     else:
         return render_template('login.html', error = 'invalid login')
     

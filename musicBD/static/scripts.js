@@ -22,6 +22,13 @@ tableNames = [
     "category"
 ];
 
+fields = [
+    "surveyContainer",
+    "tableContainer",
+    "adminContainer",
+    "managerContainer"
+];
+
 for (var i = 0; i < 8; ++i){
     let id = i;
     let strId = "request" + id.toString();
@@ -49,7 +56,7 @@ tableNames.forEach(element => {
 document.getElementById("mainSurveyButton").addEventListener(
     "click",
     function() {
-        showRequest(false);         
+        selectField("surveyContainer");         
     },
     false    
 );
@@ -90,18 +97,14 @@ async function prepareSelects(){
 
 prepareSelects();
 
-function showRequest(isOn){
-    if (isOn){
-        document.getElementById("requestLabel").hidden = false;
-        document.getElementById("requestName").hidden = false;
-        document.getElementById("requestResult").hidden = false;
-        document.getElementById("surveyContainer").style = "z-index: -1";
-    }
-    else{
-        document.getElementById("requestLabel").hidden = true;
-        document.getElementById("requestName").hidden = true;
-        document.getElementById("requestResult").hidden = true;
-        document.getElementById("surveyContainer").style = "z-index: 2"; 
+function selectField(containerName){
+    if (fields.includes(containerName)){
+        fields.foreach(element => {
+            alert(element);
+            //document.getElementById(element).style = "z-index: -1";
+        });
+        document.getElementById(containerName).style = "z-index: 1";
+        alert(containerName);
     }
 }
 
@@ -147,7 +150,7 @@ function makeRequest(request){
             document.getElementById("requestResult").innerHTML = text;
             document.getElementById("requestName").innerHTML = request;
 
-            showRequest(true);
+            selectField("tableContainer");
         }
     });
 }
