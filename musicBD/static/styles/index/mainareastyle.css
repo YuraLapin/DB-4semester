@@ -1,0 +1,158 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: start; 
+    align-items: start;
+    font-family: 'proxima-nova', sans-serif;
+    background: #21211d; 
+}
+
+.container{
+    width: 85vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    overflow: auto;
+    border: 0;
+    scrollbar-width: thin;
+    background: #21211d; 
+}
+
+.label{
+    margin-top: 10px;
+    margin-left: 25px;
+    font-size: 13px;
+    color:#A0A0A0;
+}
+
+.name{
+    padding-left: 25px;
+    font-size: 25px;
+    color: white;
+}
+
+.field{
+    margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+    border: 0;
+    background: #21211d;
+}
+
+.text-area{
+    width: 350px;
+    height: 50px;
+    margin-top: 10px;
+    padding: 15px;
+    font-size: 15px;
+    border: 0;
+    color: #fff;
+    background: #292929;
+}
+
+.text-area:focus{
+    outline: 0;
+    background: #333333;
+}
+
+.admin-text-area{
+    width: 1000px;
+    height: 50px;
+    margin-top: 10px;
+    padding: 15px;
+    font-size: 15px;
+    border: 0;
+    color: #fff;
+    background: #292929;
+}
+
+.admin-text-area:focus{
+    outline: 0;
+    background: #333333;
+}
+
+.select2{
+    height: 50px;
+    margin-top: 10px;
+    padding: 15px;
+    font-size: 15px;
+    border: 0;
+    color: #fff;
+    background-color: #292929;
+}
+
+.select2-dropdown{
+    font-size: 13px;
+    border: 0;
+    color: #fff;
+    background: #292929;
+}
+
+.select2-search input{
+    border: #fff;
+    outline: 0;
+    color: #a0a0a0;
+    background: #333333;
+}
+
+.select2-search input:focus{    
+    background: #373737;
+}
+
+.select2-container--default .select2-results__option[aria-disabled=true] {
+    display: none;
+}
+
+.send-button{
+    width: 100px;
+    height: 5vh;
+    margin: 7%;
+    align-self: center;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    background: #00d85a;
+}
+
+.send-button:active{
+    background: #009e42;
+}
+
+.error-message{
+    width: 350px;
+    height: 40px;
+    padding-top: 10px;
+    margin-top: 10px;
+    text-align: center;
+    color: black;
+    background-color: #d447476c;
+}
+
+.success-message{
+    width: 350px;
+    height: 40px;
+    padding-top: 10px;
+    margin-top: 10px;
+    text-align: center;
+    color: black;
+    background-color: #47d45e6c;
+}
+
+.select-with-name{
+    display: flex;
+}
+
+.select-name{
+    font-size: 25px;
+    color: white;
+    margin-top: 20px;
+    padding-right: 10px;
+}

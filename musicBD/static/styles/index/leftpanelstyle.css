@@ -1,0 +1,48 @@
+.left-panel{
+    width: 15vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+    align-items: start;
+    overflow: auto;
+    border: 0;
+    scrollbar-width: thin;
+    background: #000000;
+}
+
+.button-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+    align-items: start;
+    margin-left: 20px;
+    margin-top: 20px;
+    border: 0;
+    background: #000000;
+}
+
+.button-container-title{
+    font-size: 16px;
+	color: #A0A0A0;
+}
+
+.button{
+	padding-left: 25px;
+    padding-top: 10px;
+    padding-bottom: 3px;
+	font-size: 13px;
+	text-shadow: none;
+	color: #A0A0A0;
+    border: initial;
+	border-width: 1px;
+	border-radius: 4px;
+	background: rgba(0, 0, 0, 0.25);
+}
+
+.button:hover{
+    color: #FFF;
+    background-color: rgba(0, 0, 0, 0.6);
+}

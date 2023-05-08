@@ -5,27 +5,19 @@
     <head>
 
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="\static\style.css">
         <title>Любимые песни</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>  
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
-            integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
-            integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        ></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>      
+        <link rel="stylesheet" href="\static\styles\index\mainareastyle.css">
+        <link rel="stylesheet" href="\static\styles\index\leftpanelstyle.css">
+        <link rel="stylesheet" href="\static\styles\index\tablestyle.css">
         
     </head>
 
     <body class="body">
 
+        <input type="hidden" id="loginData" value="{{user|safe}}">
         
         <div class="left-panel">
 
@@ -70,7 +62,7 @@
                 <fieldset class="button-container">
 
                     <t class="button-container-title">Admin Tools</t>           
-                    <button class="button" id="mainSurveyButton">SQL Query</button>
+                    <button class="button" id="sqlQueryButton">SQL Query</button>
 
                 </fieldset>
             {% endif %}
@@ -79,59 +71,182 @@
                 <fieldset class="button-container">
 
                     <t class="button-container-title">Manager Tools</t>           
-                    <button class="button" id="mainSurveyButton">Add Song</button>
-                    <button class="button" id="mainSurveyButton">Add Album</button>
-                    <button class="button" id="mainSurveyButton">Add Band</button>
+                    <button class="button" id="managerButtonSong">Add Song</button>
+                    <button class="button" id="managerButtonAlbum">Add Album</button>
+                    <button class="button" id="managerButtonBand">Add Band</button>
+                    <button class="button" id="managerButtonGenre">Add Genre</button>
 
                 </fieldset>
             {% endif %}
+
+            {% if user != '' %}
+                <form class="button-container" action="/login">
+
+                    <t class="button-container-title">User - {{ user }}</t>           
+                    <button class="button" id="logOutButton">Log Out</button>
+
+                </form>
+            {% endif %}            
 
         </div>
 
 
         <div>
 
-            <div class="table-container" id="tableContainer" style="z-index: 1">  
+            <div class="container" id="tableContainer" style="z-index: 1">  
 
-                <t class="request-label" id="requestLabel">REQUEST</t>
-                <t class="request-name" id="requestName"></t>
+                <t class="label" id="requestLabel">REQUEST</t>
+                <t class="name" id="requestName"></t>
                 <table class="table" id="requestResult"></table>
     
             </div>  
 
-            <div class="survey-container" id="surveyContainer" style="z-index: -1">
+            <div class="container" id="surveyContainer" style="z-index: -1">
 
-                <t class="survey-label">SURVEY</t>
-                <t class="survey-name">Top 5 songs</t>
-                <fieldset class="survey-field">
+                <t class="label">SURVEY</t>
+                <t class="name">Top 5 songs</t>
 
-                    <input type="text" class="survey-text-area" id="surveyTextArea" placeholder="Your name..."></input>
-                    <input type="text" class="survey-text-area" id="surveyTextArea" placeholder="Your age..."></input>
+                <fieldset class="field">
 
-                    <select class="survey-select" id="surveySelectGender">
+                    <input type="text" class="text-area" id="surveyAgeTextArea" placeholder="Your age..."></input>
 
-                        <option value="" disabled selected hidden>Your gender</option>
-                        <option value="M">Male</option>
-                        <option value="F">Female</option>
+                    <select class="select" id="surveySelectGender">
+
+                        <option value="" disabled selected="selected" hidden>Your gender</option>
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
 
                     </select>
 
-                    <select class="survey-select" id="surveySelect0"><option value="" disabled selected hidden>Song 1</option></select>
-                    <select class="survey-select" id="surveySelect1"><option value="" disabled selected hidden>Song 2</option></select>
-                    <select class="survey-select" id="surveySelect2"><option value="" disabled selected hidden>Song 3</option></select>
-                    <select class="survey-select" id="surveySelect3"><option value="" disabled selected hidden>Song 4</option></select>
-                    <select class="survey-select" id="surveySelect4"><option value="" disabled selected hidden>Song 5</option></select>
+                    <div class="select-with-name">
+                        <t class="select-name">#1</t>
+                        <select class="select" id="surveySelect0"><option value="" disabled selected="selected" hidden>Song 1</option></select>
+                    </div>
+                    <div class="select-with-name">
+                        <t class="select-name">#2</t>
+                        <select class="select" id="surveySelect1"><option value="" disabled selected="selected" hidden>Song 1</option></select>
+                    </div>
+                    <div class="select-with-name">
+                        <t class="select-name">#3</t>
+                        <select class="select" id="surveySelect2"><option value="" disabled selected="selected" hidden>Song 1</option></select>
+                    </div>
+                    <div class="select-with-name">
+                        <t class="select-name">#4</t>
+                        <select class="select" id="surveySelect3"><option value="" disabled selected="selected" hidden>Song 1</option></select>
+                    </div>
+                    <div class="select-with-name">
+                        <t class="select-name">#5</t>
+                        <select class="select" id="surveySelect4"><option value="" disabled selected="selected" hidden>Song 1</option></select>
+                    </div>                    
                     
-                    <button class="survey-send-button" id="surveySendButton">Send</button>
+                    {% if survey == False %}
+                        <t class="error-message" id="surveyErrorMessage" hidden></t>
+                        <t class="success-message" id="surveySuccessMessage" hidden></t>
+                        <button class="send-button" id="surveySendButton">Send</button>
+                    {% endif %}
 
                 </fieldset>
 
             </div>
 
+            {% if user == 'manager' or user == 'admin' %}
+                <div class="container" id="managerContainerSong" style="z-index: -1">
+
+                    <t class="label">Tool</t>
+                    <t class="name">Add Song</t>
+
+                    <fieldset class="field">
+
+                        <input type="text" class="text-area" id="songNameTextArea" placeholder="Song name"></input>
+                        <input type="text" class="text-area" id="songDurationTextArea" placeholder="Song duration (seconds)"></input>
+                        <select class="select" id="albumSelect"><option value="" disabled selected="selected" hidden>Album</option></select>
+                        <select class="select" id="genreSelect"><option value="" disabled selected="selected" hidden>Genre</option></select>
+                        <t class="error-message" id="songErrorMessage" hidden></t>
+                        <button class="send-button" id="songAddButton">Add</button>
+
+                    </fieldset>
+
+                </div>
+            {% endif %}
+
+            {% if user == 'manager' or user == 'admin' %}
+                <div class="container" id="managerContainerAlbum" style="z-index: -1">
+
+                    <t class="label">Tool</t>
+                    <t class="name">Add Album</t>
+
+                    <fieldset class="field">
+                    
+                        <input type="text" class="text-area" id="albumNameTextArea" placeholder="Album name"></input>
+                        <input type="text" class="text-area" id="albumYearTextArea" placeholder="Album release year"></input>
+                        <select class="select" id="bandSelect"><option value="" disabled selected hidden>Band</option></select>
+                        <t class="error-message" id="albumErrorMessage" hidden></t>
+                        <button class="send-button" id="albumAddButton">Add</button>
+
+                    <fieldset class="field">
+
+                </div>
+            {% endif %}
+
+            {% if user == 'manager' or user == 'admin' %}
+                <div class="container" id="managerContainerBand" style="z-index: -1">
+
+                    <t class="label">Tool</t>
+                    <t class="name">Add Band</t>
+
+                    <fieldset class="field">
+
+                        <input type="text" class="text-area" id="bandNameTextArea" placeholder="Band name"></input>
+                        <input type="text" class="text-area" id="bandYearTextArea" placeholder="Band formation year"></input>
+                        <t class="error-message" id="bandErrorMessage" hidden></t>
+                        <button class="send-button" id="bandAddButton">Add</button>
+
+                    </fieldset>
+
+                </div>
+            {% endif %}  
+            
+            {% if user == 'manager' or user == 'admin' %}
+                <div class="container" id="managerContainerGenre" style="z-index: -1">
+
+                    <t class="label">Tool</t>
+                    <t class="name">Add Genre</t>
+
+                    <fieldset class="field">
+
+                        <input type="text" class="text-area" id="genreNameTextArea" placeholder="Genre name"></input>
+                        <t class="error-message" id="genreErrorMessage" hidden></t>
+                        <button class="send-button" id="genreAddButton">Add</button>
+
+                    </fieldset>
+
+                </div>
+            {% endif %}  
+
+            {% if user == 'admin' %}
+                <div class="container" id="adminContainer" style="z-index: -1">
+
+                    <t class="label">Tool</t>
+                    <t class="name">SQL Query</t>
+
+                    <fieldset class="field">
+
+                        <input type="text" class="admin-text-area" id="queryTextArea" placeholder="Your SQL Query"></input>
+                        <t class="error-message" id="queryErrorMessage" hidden></t>
+                        <t class="success-message" id="querySuccessMessage" hidden></t>
+                        <button class="send-button" id="queryExecuteButton">Execute</button>
+
+                    </fieldset> 
+
+                </div>
+            {% endif %}
+
         </div>         
 
         
-        <script src="\static/scripts.js"></script>
+        <script src="\static\scripts\index\lists.js"></script>
+        <script src="\static\scripts\index\functions.js"></script>
+        <script src="\static\scripts\index\event-listeners.js"></script>
 
 
     </body>
