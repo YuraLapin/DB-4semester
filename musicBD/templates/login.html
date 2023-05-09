@@ -46,6 +46,12 @@
                         <t class="error-message">Fill all the fields</t>
                     {% elif error == 'different passwords' %}
                         <t class="error-message">Passwords do not match</t>
+                    {% elif error == 'login too long' %}
+                        <t class="error-message">Login is too long</t>
+                    {% elif error == 'password too long' %}
+                        <t class="error-message">Password is too long</t>
+                    {% elif error == 'login has invalid chars' %}
+                        <t class="error-message">Login must only consist of characters and numbers</t>
                     {% elif error == 'login taken' %}
                         <t class="error-message">Login is already taken</t>
                     {% endif %}
