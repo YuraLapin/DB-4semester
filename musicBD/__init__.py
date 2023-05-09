@@ -118,10 +118,11 @@ def check_login_info(login, password):
     connection.close()
 
     request_result = cursor.fetchall()
+
     if len(request_result) == 0:
-        return render_template('login.html', error = 'invalid login')    
-    hashed_password = request_result[0][0]
+        return False    
     
+    hashed_password = request_result[0][0]    
     if bcrypt.checkpw(password, hashed_password):        
         return True 
     
@@ -249,6 +250,7 @@ def register():
 def add_survey():
     fetched_request = request.get_json()
     login = fetched_request['login']
+    name = fetched_request['name']
     age = fetched_request['age']
     gender = fetched_request['gender']
     song_id1 = fetched_request['songId1']
@@ -289,7 +291,7 @@ def add_survey():
     request_text = "SELECT id_category FROM category WHERE minimal_age <= " + str(age) + " AND maximal_age >= " + str(age) + " AND gender = " + str(gender)
     category_id = get_request_data(request_text, login)[1][0]
 
-    request_text = "INSERT INTO respondent (id_category) VALUES (" + str(category_id) + ")"
+    request_text = "INSERT INTO respondent (id_category, respondent_name) VALUES (" + str(category_id) + ", \"" + name + "\")"
     cursor.execute(request_text)
     connection.commit()
 
@@ -309,7 +311,6 @@ def add_survey():
     respondent_id = fetched_result[1][0]
 
     request_text = "INSERT INTO survey (id_song, id_respondent, song_rating) VALUES (" + str(song_id1) + ", " + str(respondent_id) + ", 5);"
-    print(request_text)
     cursor.execute(request_text)
     request_text = "INSERT INTO survey (id_song, id_respondent, song_rating) VALUES (" + str(song_id2) + ", " + str(respondent_id) + ", 4);"
     cursor.execute(request_text)

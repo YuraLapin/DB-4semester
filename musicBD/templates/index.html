@@ -75,6 +75,7 @@
                     <button class="button" id="managerButtonAlbum">Add Album</button>
                     <button class="button" id="managerButtonBand">Add Band</button>
                     <button class="button" id="managerButtonGenre">Add Genre</button>
+                    <button class="button" id="managerButtonArtist">Add Artist</button>
 
                 </fieldset>
             {% endif %}
@@ -96,6 +97,7 @@
             <div class="container" id="tableContainer" style="z-index: 1">  
 
                 <t class="label" id="requestLabel">REQUEST</t>
+                <t class="smaller-name" id="requestDescription"></t>
                 <t class="name" id="requestName"></t>
                 <table class="table" id="requestResult"></table>
     
@@ -108,6 +110,7 @@
 
                 <fieldset class="field">
 
+                    <input type="text" class="text-area" id="surveyNameTextArea" placeholder="Your name..."></input>
                     <input type="text" class="text-area" id="surveyAgeTextArea" placeholder="Your age..."></input>
 
                     <select class="select" id="surveySelectGender">
@@ -162,6 +165,7 @@
                         <select class="select" id="albumSelect"><option value="" disabled selected="selected" hidden>Album</option></select>
                         <select class="select" id="genreSelect"><option value="" disabled selected="selected" hidden>Genre</option></select>
                         <t class="error-message" id="songErrorMessage" hidden></t>
+                        <t class="success-message" id="songSuccessMessage" hidden></t>
                         <button class="send-button" id="songAddButton">Add</button>
 
                     </fieldset>
@@ -181,6 +185,7 @@
                         <input type="text" class="text-area" id="albumYearTextArea" placeholder="Album release year"></input>
                         <select class="select" id="bandSelect"><option value="" disabled selected hidden>Band</option></select>
                         <t class="error-message" id="albumErrorMessage" hidden></t>
+                        <t class="success-message" id="albumSuccessMessage" hidden></t>
                         <button class="send-button" id="albumAddButton">Add</button>
 
                     <fieldset class="field">
@@ -197,8 +202,9 @@
                     <fieldset class="field">
 
                         <input type="text" class="text-area" id="bandNameTextArea" placeholder="Band name"></input>
-                        <input type="text" class="text-area" id="bandYearTextArea" placeholder="Band formation year"></input>
+                        <input type="text" class="text-area" id="bandYearTextArea" placeholder="Band formation year (can be empty)"></input>
                         <t class="error-message" id="bandErrorMessage" hidden></t>
+                        <t class="success-message" id="bandSuccessMessage" hidden></t>
                         <button class="send-button" id="bandAddButton">Add</button>
 
                     </fieldset>
@@ -216,12 +222,34 @@
 
                         <input type="text" class="text-area" id="genreNameTextArea" placeholder="Genre name"></input>
                         <t class="error-message" id="genreErrorMessage" hidden></t>
+                        <t class="success-message" id="genreSuccessMessage" hidden></t>
                         <button class="send-button" id="genreAddButton">Add</button>
 
                     </fieldset>
 
                 </div>
             {% endif %}  
+
+            {% if user == 'manager' or user == 'admin' %}
+                <div class="container" id="managerContainerArtist" style="z-index: -1">
+
+                    <t class="label">Tool</t>
+                    <t class="name">Add Artist</t>
+
+                    <fieldset class="field">
+
+                        <input type="text" class="text-area" id="artistNameTextArea" placeholder="Name"></input>
+                        <input type="text" class="text-area" id="artistNickNameTextArea" placeholder="Nick name (can be empty)"></input>
+                        <input type="text" class="text-area" id="artistYearTextArea" placeholder="Origin year (can be empty)"></input>
+                        <select class="select" id="artistBandSelect"><option value="" disabled selected hidden>Band</option></select>
+                        <t class="error-message" id="artistErrorMessage" hidden></t>
+                        <t class="success-message" id="artistSuccessMessage" hidden></t>
+                        <button class="send-button" id="artistAddButton">Add</button>
+
+                    </fieldset>
+
+                </div>
+            {% endif %} 
 
             {% if user == 'admin' %}
                 <div class="container" id="adminContainer" style="z-index: -1">

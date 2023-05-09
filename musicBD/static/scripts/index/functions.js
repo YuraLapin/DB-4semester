@@ -107,3 +107,12 @@ function makeRequest(request, user_name){
         }
     });
 }
+
+function checkLine(line, alphabet){
+    for (var i = 0; i < line.length; ++i) {
+        if (alphabet.search(line.charAt(i)) == -1){
+            return false;
+        }
+    }
+    return true;
+}

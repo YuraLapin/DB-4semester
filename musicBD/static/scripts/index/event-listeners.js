@@ -13,6 +13,7 @@ for (var i = 0; i < 8; ++i){
                     var text = convertToTableText(result);
         
                     document.getElementById("requestResult").innerHTML = text;
+                    document.getElementById("requestDescription").innerHTML = descriptions[id];
                     document.getElementById("requestName").innerHTML = requests[id];
         
                     selectField("tableContainer");
@@ -136,11 +137,44 @@ tryAdingEventListener("managerButtonGenre", function() {
     selectField("managerContainerGenre");         
 });
 
+tryAdingEventListener("managerButtonArtist",
+    async function() {
+        var res = await makeAsyncRequest(
+            "SELECT band.id_band, band.band_name FROM band;",
+            userName,
+            async function(result){                 
+                var rawList = result;
+                rawList.shift();
+                var htmlList = "<option value=\"\" disabled selected hidden>Band name</option>";
+                rawList.forEach(element => {      
+                    htmlList += "<option value=\"" + element[0] + "\">" + element[1] + "</option>";
+                });
+                document.getElementById("artistBandSelect").innerHTML = htmlList;
+            }
+        );
+        selectField("managerContainerArtist");         
+    }
+);
+
 tryAdingEventListener("songAddButton",
     function() {
+        document.getElementById("songSuccessMessage").setAttribute("hidden", true);
+
         var songName = document.getElementById("songNameTextArea").value; 
         if (songName == ""){
             document.getElementById("songErrorMessage").innerHTML = "Name field is empty";
+            document.getElementById("songErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (!checkLine(songName, alphabet)){
+            document.getElementById("songErrorMessage").innerHTML = "Name field should consist of characters and numbers only";
+            document.getElementById("songErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (songName.length >= 40){
+            document.getElementById("songErrorMessage").innerHTML = "Name is too long";
             document.getElementById("songErrorMessage").removeAttribute("hidden");
             return;
         }
@@ -181,6 +215,8 @@ tryAdingEventListener("songAddButton",
 
         var request = "INSERT INTO song (id_album, id_genre, song_name, duration) VALUES (" + albumId.toString() + ", " + genreId.toString() + ", \"" + songName + "\", " + songDurationParsed.toString() + ")";
         document.getElementById("songErrorMessage").setAttribute("hidden", true);
+        document.getElementById("songSuccessMessage").innerHTML = "Song \"" + songName + "\" added successfully";     
+        document.getElementById("songSuccessMessage").removeAttribute("hidden");
 
         $.ajax({
             method: "POST",
@@ -196,9 +232,23 @@ tryAdingEventListener("songAddButton",
 
 tryAdingEventListener("albumAddButton",
     function() {
+        document.getElementById("albumSuccessMessage").setAttribute("hidden", true);
+
         var albumName = document.getElementById("albumNameTextArea").value; 
         if (albumName == ""){
             document.getElementById("albumErrorMessage").innerHTML = "Name field is empty";
+            document.getElementById("albumErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (!checkLine(albumName, alphabet)){
+            document.getElementById("albumErrorMessage").innerHTML = "Name field should consist of characters and numbers only";
+            document.getElementById("albumErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (albumName.length >= 40){
+            document.getElementById("albumErrorMessage").innerHTML = "Name is too long";
             document.getElementById("albumErrorMessage").removeAttribute("hidden");
             return;
         }
@@ -232,6 +282,8 @@ tryAdingEventListener("albumAddButton",
 
         var request = "INSERT INTO album (id_band, album_name, release_year) VALUES (" + bandId.toString() + ", \"" + albumName + "\", " + albumYearParsed.toString() + ")";
         document.getElementById("albumErrorMessage").setAttribute("hidden", true);
+        document.getElementById("albumSuccessMessage").innerHTML = "Album \"" + albumName + "\" added successfully";     
+        document.getElementById("albumSuccessMessage").removeAttribute("hidden");
 
         $.ajax({
             method: "POST",
@@ -246,35 +298,52 @@ tryAdingEventListener("albumAddButton",
 
 tryAdingEventListener("bandAddButton",
     function() {
+        document.getElementById("bandSuccessMessage").setAttribute("hidden", true);
+
         var bandName = document.getElementById("bandNameTextArea").value; 
         if (bandName == ""){
             document.getElementById("bandErrorMessage").innerHTML = "Name field is empty";
             document.getElementById("bandErrorMessage").removeAttribute("hidden");
             return;
         }
-        
-        var bandYear = document.getElementById("bandYearTextArea").value
-        if (bandYear == ""){
-            document.getElementById("bandErrorMessage").innerHTML = "Formation year field is empty";  
+
+        if (!checkLine(bandName, alphabet)){
+            document.getElementById("bandErrorMessage").innerHTML = "Name field should consist of characters and numbers only";
             document.getElementById("bandErrorMessage").removeAttribute("hidden");
-            return;              
+            return;
         }
 
-        var bandYearParsed = parseInt(bandYear)
-        if (isNaN(bandYearParsed)){
-            document.getElementById("bandErrorMessage").innerHTML = "Invalid year";     
+        if (bandName.length >= 40){
+            document.getElementById("bandErrorMessage").innerHTML = "Name is too long";
             document.getElementById("bandErrorMessage").removeAttribute("hidden");
-            return;              
-        }  
+            return;
+        }
         
-        if (bandYearParsed <= 0){
-            document.getElementById("bandErrorMessage").innerHTML = "Invalid year";     
-            document.getElementById("bandErrorMessage").removeAttribute("hidden");
-            return;              
-        }               
+        var bandYear = document.getElementById("bandYearTextArea").value;
+        var bandYearParsed = 0;
+        if (bandYear != ""){
+            bandYearParsed = parseInt(bandYear);
+            if (isNaN(bandYearParsed)){
+                document.getElementById("bandErrorMessage").innerHTML = "Invalid year";     
+                document.getElementById("bandErrorMessage").removeAttribute("hidden");
+                return;              
+            }  
+        
+            if (bandYearParsed <= 0){
+                document.getElementById("bandErrorMessage").innerHTML = "Invalid year";     
+                document.getElementById("bandErrorMessage").removeAttribute("hidden");
+                return;              
+            }              
+        }                     
 
         var request = "INSERT INTO band (band_name, formation_year) VALUES (\"" + bandName + "\", " + bandYearParsed.toString() + ")";
         document.getElementById("bandErrorMessage").setAttribute("hidden", true);
+        document.getElementById("bandSuccessMessage").innerHTML = "Band \"" + bandName + "\" added successfully";     
+        document.getElementById("bandSuccessMessage").removeAttribute("hidden");
+
+        if (bandYear == ""){
+            request = "INSERT INTO band (band_name) VALUES (\"" + bandName + "\")";
+        }
 
         $.ajax({
             method: "POST",
@@ -289,16 +358,122 @@ tryAdingEventListener("bandAddButton",
 
 tryAdingEventListener("genreAddButton",
     function() {
+        document.getElementById("genreSuccessMessage").setAttribute("hidden", true);
+
         var genreName = document.getElementById("genreNameTextArea").value; 
         if (genreName == ""){
             document.getElementById("genreErrorMessage").innerHTML = "Name field is empty";
             document.getElementById("genreErrorMessage").removeAttribute("hidden");
             return;
-        }                       
+        }   
+        
+        if (!checkLine(genreName, alphabet)){
+            document.getElementById("genreErrorMessage").innerHTML = "Name field should consist of characters and numbers only";
+            document.getElementById("genreErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (genreName.length >= 40){
+            document.getElementById("genreErrorMessage").innerHTML = "Name is too long";
+            document.getElementById("genreErrorMessage").removeAttribute("hidden");
+            return;
+        }
 
         var request = "INSERT INTO genre (genre_name) VALUES (\"" + genreName + "\")";
         document.getElementById("genreErrorMessage").setAttribute("hidden", true);
+        document.getElementById("genreSuccessMessage").innerHTML = "Genre \"" + genreName + "\" added successfully";     
+        document.getElementById("genreSuccessMessage").removeAttribute("hidden");
 
+        $.ajax({
+            method: "POST",
+            url: "/push",
+            data: {
+                request_text: request,
+                user: userName
+            },            
+        });
+    }
+);
+
+tryAdingEventListener("artistAddButton",
+    function() {
+        document.getElementById("artistSuccessMessage").setAttribute("hidden", true);
+
+        var artistName = document.getElementById("artistNameTextArea").value; 
+        if (artistName == ""){
+            document.getElementById("artistErrorMessage").innerHTML = "Name field is empty";
+            document.getElementById("artistErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (!checkLine(artistName, alphabet)){
+            document.getElementById("artistErrorMessage").innerHTML = "Name field should consist of characters and numbers only";
+            document.getElementById("artistErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (artistName.length >= 40){
+            document.getElementById("artistErrorMessage").innerHTML = "Name is too long";
+            document.getElementById("artistErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        var artistNickName = document.getElementById("artistNickNameTextArea").value; 
+        if (artistNickName != ""){
+            if (!checkLine(artistNickName, alphabet)){
+                document.getElementById("artistErrorMessage").innerHTML = "Nick name field should consist of characters and numbers only";
+                document.getElementById("artistErrorMessage").removeAttribute("hidden");
+                return;
+            }
+    
+            if (artistNickName.length >= 40){
+                document.getElementById("artistErrorMessage").innerHTML = "Nick name is too long";
+                document.getElementById("artistErrorMessage").removeAttribute("hidden");
+                return;
+            }
+        }
+        
+        var artistYear = document.getElementById("artistYearTextArea").value
+        var artistYearParsed = 0;
+        if (artistYear != ""){
+            artistYearParsed = parseInt(artistYear);
+            if (isNaN(artistYearParsed)){
+                document.getElementById("artistErrorMessage").innerHTML = "Invalid year";     
+                document.getElementById("artistErrorMessage").removeAttribute("hidden");
+                return;              
+            }  
+            
+            if (artistYearParsed <= 0){
+                document.getElementById("artistErrorMessage").innerHTML = "Invalid year";     
+                document.getElementById("artistErrorMessage").removeAttribute("hidden");
+                return;              
+            }                 
+        }       
+        
+        var bandId = document.getElementById("artistBandSelect").value;
+        if (bandId == ""){
+            document.getElementById("artistErrorMessage").innerHTML = "Choose band";     
+            document.getElementById("artistErrorMessage").removeAttribute("hidden");
+            return;  
+        }        
+
+        var request = "INSERT INTO artist (id_band, artist_name, nickname, origin_year) VALUES (" + bandId.toString() + ", \"" + artistName + "\", \"" + artistNickName + "\", " + artistYear.toString() + ")";
+        document.getElementById("artistErrorMessage").setAttribute("hidden", true);
+        document.getElementById("artistSuccessMessage").innerHTML = "Artist \"" + artistName + "\" added successfully";     
+        document.getElementById("artistSuccessMessage").removeAttribute("hidden");
+
+        if (artistNickName == "") {
+            if (artistYear == "") {
+                request = "INSERT INTO artist (id_band, artist_name) VALUES (" + bandId.toString() + ", \"" + artistName + "\")";
+            }
+            else {
+                "INSERT INTO artist (id_band, artist_name, origin_year) VALUES (" + bandId.toString() + ", \"" + artistName + "\", " + artistYear.toString() + ")"
+            }
+        }
+        else if (artistYear == "") {
+            "INSERT INTO artist (id_band, artist_name, nickname) VALUES (" + bandId.toString() + ", \"" + artistName + "\", \"" + artistNickName + "\")"
+        } 
+        
         $.ajax({
             method: "POST",
             url: "/push",
@@ -338,15 +513,36 @@ tryAdingEventListener("queryExecuteButton",
             }
         });
 
-        document.getElementById("queryErrorMessage").setAttribute("hidden", true);
-        document.getElementById("querySuccessMessage").innerHTML = request + "\nCompleted successfully";
-        document.getElementById("querySuccessMessage").removeAttribute("hidden");
+        answer.done(function(data, textStatus, jqXHR) {
+            document.getElementById("queryErrorMessage").setAttribute("hidden", true);
+            document.getElementById("querySuccessMessage").innerHTML = request + "\nCompleted successfully";
+            document.getElementById("querySuccessMessage").removeAttribute("hidden");
+        });
     }
 );
 
 tryAdingEventListener("surveySendButton",
     async function() {    
         document.getElementById("surveySuccessMessage").setAttribute("hidden", true);
+
+        var surveyName = document.getElementById("surveyNameTextArea").value; 
+        if (surveyName == ""){
+            document.getElementById("surveyErrorMessage").innerHTML = "Name field is empty";
+            document.getElementById("surveyErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (!checkLine(surveyName, alphabet)){
+            document.getElementById("surveyErrorMessage").innerHTML = "Name field should consist of characters and numbers only";
+            document.getElementById("surveyErrorMessage").removeAttribute("hidden");
+            return;
+        }
+
+        if (surveyName.length >= 40){
+            document.getElementById("surveyErrorMessage").innerHTML = "Name is too long";
+            document.getElementById("surveyErrorMessage").removeAttribute("hidden");
+            return;
+        }
 
         var age = document.getElementById("surveyAgeTextArea").value; 
         if (age == ""){
@@ -433,6 +629,7 @@ tryAdingEventListener("surveySendButton",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 'login': userName,
+                'name': surveyName,
                 'age': ageParsed,
                 'gender': gender,
                 'songId1': songId1,
