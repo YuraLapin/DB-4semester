@@ -12,6 +12,8 @@ app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
 mysql.init_app(app)
 
+alphabet = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNMйцукенгшщзхъфывапролджэячсмитьбюёЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮЁ1234567890 "
+
 def get_hash(password):
     return bcrypt.hashpw(password, bcrypt.gensalt())
 
@@ -128,6 +130,12 @@ def check_login_info(login, password):
     
     return False
 
+def check_string(string, alphabet):
+    for symbol in string:
+        if alphabet.find(symbol) < 0:
+            return False
+    return True
+
 @app.route('/')
 @app.route('/login')
 def login():    
@@ -203,8 +211,13 @@ def push():
 def try_login():    
     login = request.form.get('login')
     password = request.form.get('password')
+
+    if len(login) >= 40 or len(password) >= 40 or not check_string(login, alphabet):
+        return render_template('login.html', error = 'invalid login')  
+     
     if check_login_info(login, password):
         return render_template('index.html', user = login, survey = check_survey(login))
+    
     else:
         return render_template('login.html', error = 'invalid login')   
     
@@ -219,6 +232,16 @@ def register():
 
     if password1 != password2:
         return render_template('login.html', error = 'different passwords')
+    
+    if len(login) >= 40:
+        return render_template('login.html', error = 'login too long')
+
+    if len(password1) >= 40:
+            return render_template('login.html', error = 'password too long')
+    
+    if not check_string(login, alphabet):
+        return render_template('login.html', error = 'login has invalid chars')
+
     
     connection = pymysql.connect(
         host='localhost',
