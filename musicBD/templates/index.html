@@ -21,19 +21,21 @@
         
         <div class="left-panel">
 
-            <fieldset class="button-container">    
+            {% if user == 'admin' or user == 'manager' %}
+                <fieldset class="button-container">    
 
-                <t class="button-container-title">REQUESTS</t>           
-                <button class="button" id="request0">Request 1</button>
-                <button class="button" id="request1">Request 2</button>
-                <button class="button" id="request2">Request 3</button>
-                <button class="button" id="request3">Request 4</button>
-                <button class="button" id="request4">Request 5</button>
-                <button class="button" id="request5">Request 6</button>
-                <button class="button" id="request6">Request 7</button>
-                <button class="button" id="request7">Request 8</button>
+                    <t class="button-container-title">REQUESTS</t>           
+                    <button class="button" id="request0">Request 1</button>
+                    <button class="button" id="request1">Request 2</button>
+                    <button class="button" id="request2">Request 3</button>
+                    <button class="button" id="request3">Request 4</button>
+                    <button class="button" id="request4">Request 5</button>
+                    <button class="button" id="request5">Request 6</button>
+                    <button class="button" id="request6">Request 7</button>
+                    <button class="button" id="request7">Request 8</button>
 
             </fieldset>
+            {% endif %}
 
             <fieldset class="button-container">
 
@@ -43,11 +45,14 @@
                 <button class="button" id="albumButton">Albums</button>
                 <button class="button" id="songButton">Songs</button>
                 <button class="button" id="genreButton">Genres</button>
-                <button class="button" id="past_surveyButton">Past_Surveys</button>
-                <button class="button" id="former_respondentButton">Former_Respondents</button>
-                <button class="button" id="surveyButton">Surveys</button>
-                <button class="button" id="respondentButton">Respondents</button>
-                <button class="button" id="categoryButton">Categories</button>
+
+                {% if user == 'admin' or user == 'manager' %}
+                    <button class="button" id="past_surveyButton">Past_Surveys</button>
+                    <button class="button" id="former_respondentButton">Former_Respondents</button>
+                    <button class="button" id="surveyButton">Surveys</button>
+                    <button class="button" id="respondentButton">Respondents</button>
+                    <button class="button" id="categoryButton">Categories</button>
+                {% endif %}
 
             </fieldset>
 

@@ -3,8 +3,7 @@ var userName = document.getElementById("loginData").value;
 for (var i = 0; i < 8; ++i){
     let id = i;
     let strId = "request" + id.toString();
-    document.getElementById(strId).addEventListener(
-        "click",
+    tryAdingEventListener(strId,        
         function() {
             makeAsyncRequest(
                 requests[id],
@@ -27,8 +26,7 @@ for (var i = 0; i < 8; ++i){
 tableNames.forEach(element => {
     let strId = element + "Button";
     let request = "SELECT * FROM " + element;
-    document.getElementById(strId).addEventListener(
-        "click",
+    tryAdingEventListener(strId,       
         function() {
             makeAsyncRequest(
                 request,
