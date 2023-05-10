@@ -312,7 +312,8 @@ def add_survey():
         cursor = connection.cursor()
 
     request_text = "SELECT id_category FROM category WHERE minimal_age <= " + str(age) + " AND maximal_age >= " + str(age) + " AND gender = " + str(gender)
-    category_id = get_request_data(request_text, login)[1][0]
+    categories = get_request_data(request_text, login)
+    category_id = categories[len(categories) - 1][0]
 
     request_text = "INSERT INTO respondent (id_category, respondent_name) VALUES (" + str(category_id) + ", \"" + name + "\")"
     cursor.execute(request_text)
