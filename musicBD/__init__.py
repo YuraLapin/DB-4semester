@@ -191,6 +191,9 @@ def push():
     except pymysql.err.ProgrammingError:
         return 'programming error', 400
     
+    except pymysql.err.IntegrityError:
+        return 'integrity error', 400
+    
     except pymysql.err.DataError:
         return 'data error', 400
     
